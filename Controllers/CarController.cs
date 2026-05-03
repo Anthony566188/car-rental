@@ -1,4 +1,5 @@
 ﻿using car_rental.Data;
+using car_rental.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +21,39 @@ namespace car_rental.Controllers
         {
             var cars = await _context.Cars.ToListAsync();
             return Ok(cars);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Car car)
+        {
+            _context.Cars.Add(car);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(GetAll), new { id = car.Id }, car);
+
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] Car updatedCar)
+        {
+            var car = await _context.Cars.FindAsync(id);
+
+            if (car == null) return NotFound();
+
+           car.UpdateModel(updatedCar.Model, updatedCar.Brand, updatedCar.Year, updatedCar.DailyValue);
+
+
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var car = await _context.Cars.FindAsync(id);
+            if (car == null) return NotFound();
+            _context.Cars.Remove(car);
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
 
     }

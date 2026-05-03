@@ -18,6 +18,13 @@
             this.DailyValue = dailyValue;
         }
 
+        public void UpdateModel(string model, string brand, int year, decimal dailyValue)
+        {
+            this.Model = model;
+            this.Brand = brand;
+            this.Year = year;
+            this.DailyValue = dailyValue;
+        }
 
     }
 }
