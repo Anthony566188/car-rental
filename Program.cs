@@ -1,4 +1,5 @@
 using car_rental.Data;
+using car_rental.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,8 @@ builder.Services.AddDbContext<AppDbContext>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+// Serviço de cálculo de locação
+builder.Services.AddScoped<RentalService>();
 
 var app = builder.Build();
 
